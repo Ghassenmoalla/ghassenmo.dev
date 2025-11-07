@@ -1,4 +1,4 @@
-# adarsha.dev
+# ghassenmoalla.dev
 
 This is my personal website and blog built using:
 
@@ -13,8 +13,8 @@ This is my personal website and blog built using:
 This application requires Node.js v16.13+.
 
 ```bash
-git clone https://github.com/adarshaacharya/adarsha.dev
-cd adarsha.dev
+git clone https://github.com/ghassenmoalla/ghassenmoalla.dev
+cd ghassenmoalla.dev
 pnpm install
 pnpm dev
 ```
@@ -35,15 +35,15 @@ If you want to use this project code as your own portfolio , you can go ahead. P
 
 ## Author
 
-- Website: https://adarsha.dev/
-- X: [@adarsha_ach](https://x.com/adarsha_ach)
-- Github: [@adarshaacharya](https://github.com/adarshaacharya)
-- LinkedIn: [@adarshaacharya](https://linkedin.com/in/adarshaacharya)
+- Website: https://ghassenmoalla.dev/
+- X: [@GhassenMoalla](https://x.com/GhassenMoalla)
+- Github: [@ghassenmoalla](https://github.com/ghassenmoalla)
+- LinkedIn: [@ghassenmoalla](https://linkedin.com/in/ghassenmoalla)
 
 Give a ⭐️ if you like the project!
 
 ## License
 
-Copyright © 2020 [Adarsha Acharya](https://github.com/adarshaacharya).<br />
+Copyright © 2025 [Ghassen Moalla](https://github.com/ghassenmoalla).<br />
 
-This project is [MIT](https://github.com/adarshaacharya/adarsha.dev/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/ghassenmoalla/ghassenmoalla.dev/blob/master/LICENSE) licensed.
