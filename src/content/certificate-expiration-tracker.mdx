@@ -1,0 +1,165 @@
+---
+title: "Building a Certificate Expiration Tracker with Ansible"
+summary: "Automate SSL certificate monitoring on Windows servers using Ansible and community.windows collection. Track expiration dates, generate reports, and integrate with monitoring pipelines."
+type: project
+category: 'project'
+publishedAt: '2025-10-27'
+image: '/_static/blogs/certificate-expiration-tracker/banner.png'
+---
+
+# Certificate Expiration Tracker: Automated SSL Monitoring with Ansible
+
+Managing SSL certificates across multiple Windows servers can be challenging, especially in large enterprise environments. In this guide, I'll show you how to build an automated certificate expiration tracker using Ansible that helps prevent unexpected certificate expirations and potential service disruptions.
+
+## Project Overview
+
+The Certificate Expiration Tracker is an Ansible playbook designed to:
+- Automatically scan Windows servers for SSL certificates
+- Identify expired and soon-to-expire certificates
+- Generate detailed reports for monitoring and compliance
+- Integrate with existing monitoring pipelines
+
+### Technology Stack
+- Ansible
+- community.windows collection
+- Windows Server
+- PowerShell (optional)
+- Jinja2 filters for date manipulation
+
+## Implementation
+
+Here's the complete Ansible playbook that implements the certificate tracking functionality:
+
+```yaml
+---
+- name: Certificate Expiration Tracker
+  hosts: "{{ variable_host | default('iis') }}"
+  tags: win_iis_certificate_check
+  tasks:
+    # Collects certificates from 'Personal' store.
+    - name: Collect 'Personal' store certificates information.
+      community.windows.win_certificate_info:
+        store_name: My
+      register: my_certs
+
+    # Filters out expired certificates and stores them in a list.
+    - name: Identify Expired Certificates
+      ansible.builtin.set_fact:
+        certificates_expired: >-
+          {{ 
+            certificates_expired | default([]) + 
+            [{
+              'issued_to': item.issued_to,
+              'status': 'expired',
+              'expire_date': item.valid_to_iso8601
+            }]
+          }}
+      loop: "{{ my_certs.certificates }}"
+      when: 
+        - my_certs is defined
+        - my_certs.certificates is defined
+        - (item.valid_to_iso8601 | to_datetime(format='%Y-%m-%dT%H:%M:%SZ')).timestamp() <= (now().timestamp())
+      loop_control:
+        label: "{{ item.issued_to }} - {{ item.valid_to_iso8601 }} - {{ item.thumbprint }}"      
+
+    - name: Identify Certificates Expiring Shortly (Within Two Weeks)
+      ansible.builtin.set_fact:
+        certificates_toexpire: >-
+          {{
+            certificates_toexpire | default([]) +
+            [{
+              'issued_to': item.issued_to,
+              'days_left': ((item.valid_to_iso8601 | to_datetime(format='%Y-%m-%dT%H:%M:%SZ')).timestamp() - now().timestamp()) // 86400 | int
+            }]
+          }}
+      loop: "{{ my_certs.certificates }}"
+      when:
+        - my_certs is defined
+        - my_certs.certificates is defined
+        - (item.valid_to_iso8601 | to_datetime(format='%Y-%m-%dT%H:%M:%SZ')).timestamp() <= (now().timestamp() + 1209600)
+        - (item.valid_to_iso8601 | to_datetime(format='%Y-%m-%dT%H:%M:%SZ')).timestamp() > now().timestamp()
+      loop_control:
+        label: "{{ item.issued_to }} - {{ item.valid_to_iso8601 }} - {{ item.thumbprint }}"
+
+    - name: Display List of Expired Certificates
+      ansible.builtin.debug:
+        msg: "Certificate issued to '{{ item.issued_to }}' has expired."
+      loop: "{{ certificates_expired }}"
+      when: certificates_expired is defined and certificates_expired | length > 0
+
+    - name: Display Certificates Nearing Expiration
+      ansible.builtin.debug:
+        msg: "Certificate issued to '{{ item.issued_to }}' will expire in {{ item['days_left'] }} days."
+      loop: "{{ certificates_toexpire }}"
+      when: certificates_toexpire is defined and certificates_toexpire | length > 0
+```
+
+## Key Features Explained
+
+### 1. Certificate Collection
+The playbook uses the `community.windows.win_certificate_info` module to collect certificate information from the Windows "Personal" certificate store:
+
+```yaml
+- name: Collect 'Personal' store certificates information.
+  community.windows.win_certificate_info:
+    store_name: My
+  register: my_certs
+```
+
+### 2. Expiration Detection
+We use Jinja2 filters to identify:
+- **Expired certificates**: Certificates whose expiration date is in the past
+- **Soon-to-expire certificates**: Certificates expiring within the next two weeks
+
+The timestamp comparison is done using:
+```yaml
+(item.valid_to_iso8601 | to_datetime(format='%Y-%m-%dT%H:%M:%SZ')).timestamp()
+```
+
+### 3. Report Generation
+The playbook generates two types of reports:
+- List of expired certificates with their details
+- List of certificates nearing expiration with days remaining
+
+## Integration with Monitoring Systems
+
+This playbook can be integrated into your monitoring pipeline in several ways:
+
+1. **Scheduled Execution**: Run via cron or scheduled tasks
+2. **CI/CD Integration**: Include in your infrastructure validation pipeline
+3. **Monitoring Integration**: Export results to monitoring systems
+
+Example cron schedule:
+```bash
+0 8 * * * ansible-playbook certificate_tracker.yml
+```
+
+## Error Handling and Best Practices
+
+The playbook implements several best practices:
+
+1. **Input Validation**: Checks for undefined variables and empty lists
+2. **Modular Design**: Tasks are separated logically for maintainability
+3. **Clear Output**: Human-readable messages for easy interpretation
+4. **Loop Controls**: Labels for better debugging and logging
+
+## Future Enhancements
+
+Potential improvements for the project:
+
+1. **Email Notifications**: Add SMTP integration for alerts
+2. **Dashboard Integration**: Export data to Grafana or similar
+3. **Auto-Renewal**: Add certificate renewal automation
+4. **Multiple Store Support**: Extend to check additional certificate stores
+
+## Conclusion
+
+This Certificate Expiration Tracker demonstrates how to use Ansible for Windows server automation and certificate management. It's a practical example of using Infrastructure as Code for security and compliance monitoring.
+
+The project showcases several important skills:
+- Windows server automation with Ansible
+- Date manipulation with Jinja2 filters
+- Error handling and input validation
+- Integration with enterprise monitoring systems
+
+Feel free to adapt this playbook for your needs or contribute improvements!

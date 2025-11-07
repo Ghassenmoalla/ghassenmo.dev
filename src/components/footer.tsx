@@ -32,12 +32,12 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()}{" "}
             <a
-              href={siteMetadata.social.x}
+              href={siteMetadata.siteUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground transition-colors"
             >
-              Adarsha Acharya
+              Ghassen Moalla
             </a>
             . All rights reserved.
           </p>

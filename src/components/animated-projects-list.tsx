@@ -52,7 +52,7 @@ export function AnimatedProjectsList({
       className="grid gap-6 md:grid-cols-2"
     >
       {projects.map((project, idx) => (
-        <motion.div key={idx} variants={itemVariants}>
+        <motion.div key={idx} variants={itemVariants as any}>
           {type === "web-apps" ? (
             <ProjectCard project={project as WebApp} />
           ) : (

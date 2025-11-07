@@ -1,0 +1,94 @@
+---
+title: "Enterprise-Grade Cloud Architecture: Secure 3-Tier Application Deployment on Azure"
+type: Blog
+publishedAt: '2025-07-29'
+summary: "Guide to deploy Dependency-Track on Azure using private endpoints and Azure AD for secure access and enterprise-grade security."
+category: 'blog'
+image: '/_static/blogs/dependency-track-azure/Dependency-Track-Arch.png'
+externalUrl: 'https://medium.com/@moallaghassen1/️-securely-deploying-dependency-track-on-azure-with-private-endpoints-and-azure-ad-authentication-7c8f28cf27ac'
+---
+
+Dependency-Track is an intelligent component analysis platform that helps DevOps teams reduce risks in the software supply chain.
+
+With modern applications relying heavily on open-source components, securing dependencies is critical. Dependency-Track:
+
+- Continuously monitors SBOMs (Software Bills of Materials)
+- Detects vulnerabilities before they reach production
+- Automates policy enforcement across teams
+
+In this guide, I’ll show you how to deploy Dependency-Track securely on Azure using private endpoints and Azure Active Directory (AAD) authentication.
+
+## Use Case
+
+We want a secure and scalable solution where:
+
+- Only internal users can access Dependency-Track.
+- All traffic stays within private endpoints in the Azure virtual network (VNet).
+- Azure AD provides identity and access management.
+
+## Architecture & Azure Components Overview
+
+High-level flow:
+
+Frontend → Azure Static Web App
+
+API → Azure App Service (Docker container)
+
+Database → Azure PostgreSQL Flexible Server
+
+Networking → Private Endpoints for all components
+
+## Prerequisites
+
+- An Azure subscription with admin permissions
+- Access to Azure Active Directory for app registration
+- A DNS zone (e.g., example.com)
+- An existing virtual network (VNet)
+
+## Step-by-step deployment (overview)
+
+### 1) Configure Azure AD for OIDC
+
+- Register an app in Azure AD for Dependency-Track
+- Enable ID tokens (Implicit Grant) if needed
+- Add required API permissions (openid, profile, email)
+- Configure redirect URIs used by the frontend
+
+### 2) Networking
+
+- Create subnets for private endpoints (e.g., `snet-deptrack`)
+- Create delegated subnet for App Service (e.g., `snet-deptrack-del`)
+- Configure Private DNS zones and mappings for each service
+
+### 3) Frontend
+
+- Deploy the frontend to Azure Static Web Apps
+- Secure with a Private Endpoint and configure private DNS
+
+### 4) API
+
+- Deploy API as an App Service (Docker) with VNet integration
+- Use private endpoints to keep traffic internal
+- Set environment variables for DB connections and OIDC settings
+
+### 5) PostgreSQL
+
+- Deploy Azure Database for PostgreSQL Flexible Server
+- Restrict public access and secure it with Private Endpoints
+
+### 6) OIDC & Login
+
+- Configure the frontend to use Azure AD for authentication
+- Map Azure AD groups to Dependency-Track teams for authorization
+
+## Notes & Tips
+
+- Use managed identities where possible to avoid embedding credentials.
+- Use Azure Key Vault to store secrets and connection strings.
+- Monitor resources and set up alerts for critical events.
+
+## Conclusion
+
+You’ve successfully deployed Dependency-Track on Azure with private endpoints and Azure AD authentication. This architecture keeps the system isolated from the public internet while allowing secure access to authorized users.
+
+If you want, I can expand this guide with ARM/Bicep or Terraform examples, CI/CD pipeline configs for deployment, and step-by-step CLI commands.

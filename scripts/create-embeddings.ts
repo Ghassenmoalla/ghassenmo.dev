@@ -21,7 +21,7 @@ async function loadResume() {
       throw new Error("Resume PDF file not found or is empty.");
     }
 
-    const resumePdfBlob = new Blob([resumePdfBuffer], {
+    const resumePdfBlob = new Blob([resumePdfBuffer.buffer], {
       type: "application/pdf",
     });
 

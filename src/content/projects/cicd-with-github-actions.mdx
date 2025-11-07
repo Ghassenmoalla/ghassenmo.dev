@@ -1,0 +1,34 @@
+---
+title: "CI/CD with GitHub Actions and Azure App Service"
+description: "A detailed look at a CI/CD pipeline using GitHub Actions to deploy a Node.js application to Azure App Service."
+---
+
+
+This project showcases a detailed CI/CD pipeline using GitHub Actions to deploy a Node.js application to Azure App Service. The workflow automates the build and deployment process, ensuring a consistent and reliable deployment cycle.
+
+### How the CI/CD Pipeline Works
+
+The pipeline is divided into two main stages: Continuous Integration (CI) and Continuous Deployment (CD).
+
+**1. Continuous Integration (The `build` Job):**
+*   **Trigger**: The pipeline automatically starts when new code is pushed to the `main` branch.
+*   **Environment Setup**: A fresh virtual machine is created, the code is checked out, and the correct Node.js version is installed.
+*   **Build & Verification**: The project dependencies are installed using `npm install`, and the application is built with `npm run build`. This is where you would also run automated tests to ensure code quality.
+*   **Artifact Creation**: After a successful build, the application code is packaged into a `build artifact` and uploaded to GitHub. This artifact is a ready-to-deploy version of the application.
+
+**2. Continuous Deployment (The `deploy` Job):**
+*   **Download Artifact**: The `deploy` job begins by downloading the `build artifact`, ensuring that the exact code that was built and tested is what gets deployed.
+*   **Authentication**: The workflow securely authenticates with Azure using a Service Principal.
+*   **Deployment**: The `azure/webapps-deploy@v3` action deploys the application to the Azure App Service.
+
+### Azure and GitHub Association: Authentication
+
+For GitHub Actions to deploy to Azure, a secure connection must be established. This is achieved using a **Service Principal** in Azure Active Directory.
+
+*   **What is a Service Principal?** A Service Principal is an identity created for applications and automated tools (like this GitHub Actions workflow) to access Azure resources. It is defined by a Client ID, a Tenant ID, and a Subscription ID.
+*   **How it Works**:
+    1.  You create a Service Principal in Azure and grant it the necessary permissions to deploy to your App Service.
+    2.  The credentials of the Service Principal (Client ID, Tenant ID, etc.) are stored as encrypted secrets in your GitHub repository.
+    3.  The `azure/login@v2` action in the workflow uses these secrets to authenticate with Azure, allowing it to perform the deployment on your behalf.
+
+This method is secure because you are not storing any passwords or keys directly in your code. The secrets are managed by GitHub and are only exposed to the workflow during its execution.

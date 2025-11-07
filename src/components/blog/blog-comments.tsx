@@ -5,7 +5,7 @@ import Giscus from "@giscus/react";
 export const BlogComments = () => {
   return (
     <Giscus
-      repo="adarshaacharya/portfolio-giscus"
+        repo="ghassenmoalla/portfolio-giscus"
       repoId="R_kgDOKdCDlg"
       category="Announcements"
       categoryId="DIC_kwDOKdCDls4CZ7ll"

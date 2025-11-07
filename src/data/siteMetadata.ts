@@ -1,18 +1,16 @@
 export const siteMetadata = {
-  title: "Adarsha Acharya",
-  author: "Adarsha Acharya",
-  siteUrl: "https://adarsha.dev",
+  title: "Ghassen Moalla",
+  author: "Ghassen Moalla",
+  siteUrl: "https://ghassen-moalla.dev",
   socialBanner: "/_static/default-og-card.png",
   description:
-    "Adarsha Acharya - Fullstack developer passionate about creating and sharing things on internet",
+    "Ghassen Moalla - Platform Engineer @ Mantu | Cloud and DevOps Engineer with expertise in Azure DevOps, Terraform, and cloud automation",
   keywords: [
-    `Adarsha Acharya, Adarsha, Acharya, adarshaacharya, Aadarsha Acharya, Aadarsha, Acharya, adarsha.dev, adarsha, acharya, aadarsha`,
+    `Ghassen Moalla, Platform Engineer, Cloud Engineer, DevOps Engineer, Azure DevOps, Terraform, CI/CD, Cloud Architecture, Infrastructure as Code`,
   ],
   social: {
-    email: "hi@adarsha.dev",
-    x: "https://x.com/adarsha_ach",
-    linkedinLink: `https://www.linkedin.com/in/adarshaacharya/`,
-    githubLink: `https://github.com/adarshaacharya`,
+    email: "moallaghassen1@gmail.com",
+    linkedinLink: `https://www.linkedin.com/in/ghassenmoalla`,
   },
-  repo: `https://github.com/adarshaacharya/adarsha.dev`,
+  repo: `https://github.com/ghassenmoalla`,
 };

@@ -8,23 +8,8 @@ import {
 
 export const SOCIALS = [
   {
-    label: "GitHub",
-    href: "https://github.com/adarshaacharya",
-    icon: GitHubIcon,
-  },
-  {
-    label: "X",
-    href: "https://x.com/adarsha_ach",
-    icon: XIcon,
-  },
-  {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/adarshaacharya",
+    href: "https://www.linkedin.com/in/ghassenmoalla",
     icon: LinkedInIcon,
-  },
-  {
-    label: "Youtube",
-    href: "https://www.youtube.com/@ad4rsha",
-    icon: YoutubeIcon,
   },
 ];

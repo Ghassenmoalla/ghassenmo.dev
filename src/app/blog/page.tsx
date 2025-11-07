@@ -1,53 +1,24 @@
+import { Suspense } from "react";
 import { AnimatedBlogList } from "@/components/blog/animated-blog-list";
-import { Pagination } from "@/components/blog/pagination";
-import { SearchInput } from "../../components/blog/search-input";
 import { allBlogs } from "contentlayer/generated";
 import { generatePageMetadata } from "../seo";
-import { ENV } from "@/lib/env";
 
 export const metadata = generatePageMetadata({
   title: "Blog",
-  description:
-    "Explore my blog posts on Javascript, Typescript, React.js, Next.js, Prisma, Nest.js, AI , LLMs and more.",
+  description: "Technical writing on DevOps, Cloud, and secure deployments.",
 });
 
-const isProd = ENV.NODE_ENV === "production";
-const BLOG_POSTS_PER_PAGE = 6;
-
-export default async function Blog({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const resolvedSearchParams = await searchParams;
-  const pageParam = resolvedSearchParams.page;
-  const searchQuery = resolvedSearchParams.search?.toString() || "";
-  const page = typeof pageParam === "string" ? parseInt(pageParam, 10) || 1 : 1;
-
-  const blogs = allBlogs.sort((a, b) => {
-    if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
-      return -1;
-    }
-    return 1;
-  });
-
-  const undraftedBlogs = isProd ? blogs.filter((blog) => !blog.draft) : blogs;
-
-  const filteredBlogs = searchQuery
-    ? undraftedBlogs.filter(
-        (blog) =>
-          blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          blog.summary.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-    : undraftedBlogs;
-
-  const totalPages = Math.ceil(filteredBlogs.length / BLOG_POSTS_PER_PAGE);
-  const currentPage = page > totalPages ? 1 : page;
-
-  const currentPosts = filteredBlogs.slice(
-    (currentPage - 1) * BLOG_POSTS_PER_PAGE,
-    currentPage * BLOG_POSTS_PER_PAGE,
+export default async function Blog() {
+  // Show only the Dependency-Track article
+  const blogs = allBlogs.sort((a, b) =>
+    new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
   );
+
+  const dependencyPost = blogs.find(
+    (b) => b.slug === "dependency-track-azure" || b.title.includes("Dependency-Track"),
+  );
+
+  const posts = dependencyPost ? [dependencyPost] : [];
 
   return (
     <div className="space-y-10 md:space-y-12">
@@ -58,20 +29,17 @@ export default async function Blog({
               Blog
             </h1>
             <p className="text-muted-foreground max-w-3xl text-sm md:text-base">
-              Thoughts on software development, web technologies, Generative AI, and
-              engineering practices.
+              Selected technical write-ups and guides.
             </p>
           </div>
-          <SearchInput />
         </div>
 
         <div className="max-w-5xl">
-          <AnimatedBlogList posts={currentPosts} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <AnimatedBlogList posts={posts} />
+          </Suspense>
         </div>
       </section>
-      {totalPages > 1 && (
-        <Pagination currentPage={currentPage} totalPages={totalPages} />
-      )}
     </div>
   );
 }

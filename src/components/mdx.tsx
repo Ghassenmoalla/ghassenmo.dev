@@ -41,7 +41,7 @@ const components = {
   Callout,
 };
 
-export function Mdx({ code }: { code: string }) {
+export function Mdx({ code, showComments = true }: { code: string, showComments?: boolean }) {
   const Content = getMDXComponent(code);
 
   return (
@@ -50,7 +50,7 @@ export function Mdx({ code }: { code: string }) {
       <article className="prose prose-neutral dark:prose-invert prose-quoteless  max-w-none">
         <Content components={components} />
       </article>
-      <BlogComments />
+      {showComments && <BlogComments />}
     </React.Fragment>
   );
 }

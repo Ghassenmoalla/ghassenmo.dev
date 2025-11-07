@@ -11,7 +11,16 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Download } from "lucide-react";
 
 export default function Home() {
+  // Only include actual Blog posts, exclude drafts and future-published items
   const blogs = allBlogs
+    .filter((b) =>
+      // include only items explicitly marked as blog via frontmatter
+      (b.category && String(b.category).toLowerCase() === "blog") &&
+      // exclude drafts when present
+      (!("draft" in b) || !b.draft) &&
+      // exclude future posts
+      new Date(b.publishedAt).getTime() <= Date.now()
+    )
     .sort(
       (a, b) =>
         new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
@@ -23,15 +32,15 @@ export default function Home() {
       <section className="space-y-6">
         <div className="flex items-center gap-6">
           <Image
-            src="/_static/me.jpg"
+            src="/_static/ghassenpic.jpg"
             width={120}
             height={120}
-            alt="Adarsha Acharya"
+             alt="Ghassen Moalla"
             className="rounded-2xl transition-all duration-300 hover:scale-105"
             priority
           />
           <div className="flex-1 space-y-4">
-            <h1 className="text-2xl font-bold">Adarsha Acharya</h1>
+             <h1 className="text-2xl font-bold">Ghassen Moalla</h1>
 
             <div className="flex items-center gap-4">
               {SOCIALS.map((social) => (
@@ -49,24 +58,24 @@ export default function Home() {
 
         <div className="space-y-4 text-muted-foreground leading-relaxed">
           <p>
-            I&apos;m a fullstack software engineer specializing in building web
-            applications powered by modern JavaScript technologies and AI-driven
-            features.
+             I&apos;m a Platform Engineer at Mantu, specializing in cloud infrastructure,
+             DevOps practices, and automation using Azure, Terraform, and other modern
+             cloud technologies.
           </p>
           <p>
-            Over the years, I&apos;ve worked on multiple startups to build and
-            launch end-to-end products in insurance, iGaming, and video
-            streaming domains, and have actively contributed to various open
-            source projects.
+             With extensive experience in Azure DevOps, I&apos;ve implemented robust CI/CD pipelines,
+             automated infrastructure deployment, and optimized cloud resources. I&apos;ve successfully
+             managed and automated the deployment of over 20 Azure services, significantly
+             improving deployment efficiency and reliability.
           </p>
           <p>
             If you have an exciting project or role that aligns with my
             expertise, please reach out at{" "}
             <a
-              href="mailto:hi@adarsha.dev"
+               href="mailto:moallaghassen1@gmail.com"
               className="font-medium text-foreground underline underline-offset-4 hover:text-primary transition-colors"
             >
-              hi@adarsha.dev
+               moallaghassen1@gmail.com
             </a>{" "}
             or through any of my social channels.
           </p>
@@ -74,7 +83,7 @@ export default function Home() {
 
         <div className="flex gap-3">
           <Button variant="outline" asChild>
-            <a href={LINKS.RESUME} target="_blank" rel="noopener noreferrer">
+            <a href="/_static/Ghassen_Moalla_Resume.pdf" target="_blank" rel="noopener noreferrer">
               <Download className="h-4 w-4 mr-2" />
               Resume
             </a>
@@ -96,7 +105,7 @@ export default function Home() {
             Latest Posts
           </h2>
           <Button variant="ghost" asChild>
-            <Link href="/blog">
+              <Link href="/blog">
               View all posts
               <ArrowRight className="h-4 w-4 ml-2" />
             </Link>

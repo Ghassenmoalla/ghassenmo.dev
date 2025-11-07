@@ -43,7 +43,13 @@ export const Blog = defineDocumentType(() => ({
       type: "string",
       required: true,
     },
+    category: {
+      type: "string",
+    },
     image: {
+      type: "string",
+    },
+    externalUrl: {
       type: "string",
     },
     draft: {
@@ -54,9 +60,31 @@ export const Blog = defineDocumentType(() => ({
   computedFields,
 }));
 
+export const Project = defineDocumentType(() => ({
+  name: "Project",
+  filePathPattern: `projects/**/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: {
+      type: "string",
+      required: true,
+    },
+    description: {
+      type: "string",
+      required: true,
+    },
+  },
+  computedFields: {
+    slug: {
+      type: "string",
+      resolve: (doc) => doc._raw.flattenedPath.replace("projects/", ""),
+    },
+  },
+}));
+
 export default makeSource({
   contentDirPath: "src/content",
-  documentTypes: [Blog],
+  documentTypes: [Project, Blog],
   mdx: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
