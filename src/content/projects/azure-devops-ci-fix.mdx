@@ -1,0 +1,27 @@
+---
+title: "Optimizing CI/CD Pipeline Reliability in Azure DevOps"
+description: "A core CI build step for a critical frontend application was plagued by intermittent npm install failures. The fix involved switching to `npm ci` and adding an explicit directory cleanup step, resulting in a more robust and reliable pipeline."
+---
+
+## Project Title: Optimizing CI/CD Pipeline Reliability in Azure DevOps
+
+### Technologies Used:
+*   Azure DevOps
+*   Node.js
+*   npm
+*   YAML Pipelines
+*   Vue.js
+
+### Summary/Challenge:
+A core Continuous Integration (CI) build step in our Azure DevOps pipeline, responsible for installing Node.js dependencies (`npm install`), was failing intermittently. This created non-deterministic builds and required manual pipeline re-runs, wasting developer time.
+
+### Solution & Implementation:
+The fix involved two key changes to the Azure DevOps YAML pipeline:
+
+1.  **Switched to `npm ci` (Clean Install):** Migrated the installation command from the non-deterministic `npm install` to the faster and more reliable `npm ci`.
+2.  **Added Explicit Directory Cleanup:** Inserted a `DeleteFiles@1` task immediately before the installation step to explicitly clean up the working directory and remove any potentially corrupt `node_modules` folder.
+
+### Key Achievements & Impact:
+*   Achieved 100% build reliability for the dependency installation step.
+*   Eliminated manual pipeline re-runs, saving developer time.
+*   Implemented a faster and more deterministic build process.

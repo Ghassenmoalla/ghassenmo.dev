@@ -10,13 +10,27 @@ export type WebApp = {
 
 export const WEB_APPS: WebApp[] = [
   {
+    title: "Blue-Green Strategy on Azure",
+    slug: "zero-downtime-deployments-with-blue-green-strategy-on-azure",
+    description:
+      "This project implements a classic blue-green deployment pipeline to achieve zero-downtime updates for a web application. The core idea is to maintain two identical production environments, 'Blue' and 'Green.' While one environment is live, the other serves as a staging area for the new version.",
+    tags: ["Microsoft Azure", "Node.js", "GitHub Actions", "CI/CD"],
+    thumbnail: "/_static/projects/Blue-Green.png",
+  },
+  {
+    title: "Optimizing CI/CD Reliability",
+    slug: "azure-devops-ci-fix",
+    description: "A core CI build step for a critical frontend application was plagued by intermittent npm install failures. The fix involved switching to `npm ci` and adding an explicit directory cleanup step, resulting in a more robust and reliable pipeline.",
+    tags: ["Azure DevOps", "Node.js", "npm", "YAML Pipelines", "Vue.js"],
+    thumbnail: "/_static/projects/DevOps-Reliability.png",
+  },
+  {
     title: "CI/CD with GitHub Actions",
     slug: "cicd-with-github-actions",
     description: "A CI/CD pipeline to build and deploy a Node.js application to Azure App Service using GitHub Actions.",
     tags: ["CI/CD", "GitHub Actions", "Azure", "Node.js", "DevOps"],
     thumbnail: "/_static/CICDwithGitHubActions.png",
   },
-
   {
     title: "Ansible Certificate Tracker",
     slug: "ansible-certificate-tracker",

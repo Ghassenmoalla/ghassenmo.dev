@@ -114,13 +114,7 @@ export default function Home() {
 
         <div className="max-w-4xl divide-y divide-border/40">
           {blogs.map((blog) => (
-            <Link
-              key={blog.slug}
-              href={`/blog/${blog.slug}`}
-              className="block hover:bg-muted/30 transition-colors duration-200 rounded-lg -mx-4 px-4"
-            >
-              <BlogListItem blog={blog} />
-            </Link>
+            <BlogListItem key={blog.slug} blog={blog} />
           ))}
         </div>
       </section>
