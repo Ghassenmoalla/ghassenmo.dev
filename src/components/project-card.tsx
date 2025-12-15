@@ -12,15 +12,25 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type Props = {
   project: WebApp;
 };
 
 export const ProjectCard = ({ project }: Props) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
-    <Link href={`/projects/${project.slug}`} className="h-full block">
-      <Card className="group overflow-hidden transition-all duration-500 hover:shadow-xl h-full flex flex-col">
+    <Card className="group overflow-hidden transition-all duration-500 hover:shadow-xl h-full flex flex-col">
+      <Link
+        href={`/projects/${project.slug}`}
+        className="flex flex-col flex-grow"
+      >
         <div className="relative cursor-pointer pb-[56.25%]">
           <ZoomableImage
             src={project.thumbnail}
@@ -40,7 +50,7 @@ export const ProjectCard = ({ project }: Props) => {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="pb-4 pt-0 flex-1">
+        <CardContent className="pb-4 pt-0">
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag) => (
               <Badge
@@ -53,50 +63,48 @@ export const ProjectCard = ({ project }: Props) => {
             ))}
           </div>
         </CardContent>
+      </Link>
 
-        <CardFooter className="pt-0 pb-6">
-          <div className="flex gap-3 w-full">
-            {project.repo && (
-              <Button
-                variant="outline"
-                size="sm"
-                asChild
-                className="flex-1 hover:bg-primary hover:text-primary-foreground transition-colors"
-                onClick={(e) => e.stopPropagation()}
+      <CardFooter className="pt-0 pb-6">
+        <div className="flex gap-3 w-full">
+          {project.repo && (
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="flex-1 hover:bg-primary hover:text-primary-foreground transition-colors"
+            >
+              <a
+                href={project.repo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2"
               >
-                <a
-                  href={project.repo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <Github className="h-4 w-4" />
-                  Code
-                </a>
-              </Button>
-            )}
-            {project.demo && (
-              <Button
-                variant="outline"
-                size="sm"
-                asChild
-                className="flex-1 hover:bg-primary hover:text-primary-foreground transition-colors"
-                onClick={(e) => e.stopPropagation()}
+                {isClient && <Github className="h-4 w-4" />}
+                Code
+              </a>
+            </Button>
+          )}
+          {project.demo && (
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="flex-1 hover:bg-primary hover:text-primary-foreground transition-colors"
+            >
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2"
               >
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Demo
-                </a>
-              </Button>
-            )}
-          </div>
-        </CardFooter>
-      </Card>
-    </Link>
+                {isClient && <ExternalLink className="h-4 w-4" />}
+                Demo
+              </a>
+            </Button>
+          )}
+        </div>
+      </CardFooter>
+    </Card>
   );
 };

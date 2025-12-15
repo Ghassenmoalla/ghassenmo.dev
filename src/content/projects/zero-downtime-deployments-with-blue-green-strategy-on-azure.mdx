@@ -1,0 +1,21 @@
+---
+title: "Zero-Downtime Deployments with Blue-Green Strategy on Azure"
+description: "This project demonstrates a blue-green deployment strategy for a Node.js web application on Microsoft Azure. It uses GitHub Actions to automate the deployment of two distinct application versions—a 'blue' and a 'green' version—to separate deployment slots within an Azure App Service. This approach facilitates zero-downtime deployments by allowing a new version to be deployed to a staging slot, tested in a production-like environment, and then seamlessly swapped into production."
+---
+
+## Project Title: Zero-Downtime Deployments with Blue-Green Strategy on Azure
+
+### Key Technologies:
+
+*   Microsoft Azure (App Service, Deployment Slots)
+*   Node.js
+*   GitHub Actions (CI/CD)
+*   Git
+
+### Project Description
+
+This project implements a classic blue-green deployment pipeline to achieve zero-downtime updates for a web application. The core idea is to maintain two identical production environments, "Blue" and "Green." While one environment is live, the other serves as a staging area for the new version.
+
+The project uses GitHub Actions to automate the deployment of a simple Node.js application to an Azure App Service. The CI/CD pipeline deploys the new code to the non-production slot, allows for verification and testing, and then swaps it into the production slot with a single action. This ensures a seamless user experience with no service interruption during updates.
+
+This project highlights skills in cloud infrastructure, CI/CD, and advanced deployment patterns. It emphasizes the benefits of this approach, such as reduced risk, instant rollback capability, and improved application availability.
