@@ -1,0 +1,17 @@
+<svg width="800" height="450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="azureFundGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0078D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#005A9E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#azureFundGrad)"/>
+  <g transform="translate(400, 150)">
+    <circle cx="0" cy="0" r="80" fill="white" opacity="0.2"/>
+    <text x="0" y="-20" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="32" font-weight="bold">Microsoft</text>
+    <text x="0" y="20" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="24">Azure</text>
+  </g>
+  <text x="400" y="280" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Azure Fundamentals</text>
+  <text x="400" y="320" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="20">Microsoft Certified</text>
+  <text x="400" y="380" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" opacity="0.8">AZ-900</text>
+</svg>
