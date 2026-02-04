@@ -9,6 +9,13 @@ export type WebApp = {
 };
 
 export const WEB_APPS: WebApp[] = [
+    {
+    title: "Terraform Module Refactoring: Azure Application Insights Web Tests",
+    slug: "terraform-module-refactoring-azure-application-insights-web-tests",
+    description: "Eliminated production infrastructure risks by refactoring a Terraform module from unstable count-based to stable for_each iteration, preventing unintended resource recreation and reducing outage potential.",
+    tags: ["Terraform", "Azure", "IaC", "DevOps", "Module Design"],
+    thumbnail: "/_static/projects/terraform-azure.png",
+  },
   {
     title: "Blue-Green Strategy on Azure",
     slug: "zero-downtime-deployments-with-blue-green-strategy-on-azure",
