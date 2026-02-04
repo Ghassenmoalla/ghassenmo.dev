@@ -1,0 +1,58 @@
+---
+title: "Terraform Module Refactoring: Azure Application Insights Web Tests"
+description: "Eliminated production infrastructure risks by refactoring a Terraform module from unstable count-based to stable for_each iteration, preventing unintended resource recreation and reducing outage potential."
+---
+
+## Infrastructure Stability Refactoring
+
+**Problem Solved**: A production Terraform module managing Azure Application Insights web tests suffered from unintended infrastructure recreation, causing potential service outages when configuration lists were reordered.
+
+**Root Cause**: The module used `count` for resource iteration, where resources were identified by their position in a list. Any change to list order (adding/removing items, reordering) triggered destroy-and-recreate operations for all subsequent resources.
+
+## Solution Implemented
+
+**Refactoring Approach**:
+- Migrated from `count` to `for_each` with stable map keys
+- Redesigned input variables from lists to maps for consistent resource identity
+- Map keys became the single source of truth for resource naming and referencing
+
+**Key Changes**:
+- Input variables: `list(object)` → `map(object)`
+- Resource iteration: `count = length(var.items)` → `for_each = var.items`
+- Resource naming: Index-based → Key-based identifiers
+
+## Impact & Results
+
+**Infrastructure Stability**:
+- Eliminated unexpected resource recreation during configuration updates
+- Reduced production outage risk from infrastructure changes
+- Enabled safe, predictable Terraform deployments
+
+**Operational Benefits**:
+- Simplified web test management and modifications
+- Improved deployment reliability and confidence
+- Enhanced infrastructure change management processes
+
+## Technologies & Tools
+
+- **Terraform**: Infrastructure as Code framework
+- **Azure Application Insights**: Web test monitoring service
+- **Azure Cloud**: Target infrastructure platform
+- **Git**: Version control for module and documentation
+- **Semantic Versioning**: Module release management
+
+## Project Scope
+
+**Module Components Refactored**:
+- Web test resources and configurations
+- Alert rules and action groups
+- Input validation and type constraints
+- Output structures and data flow
+
+**Supporting Work**:
+- Complete documentation rewrite
+- Usage examples and migration guides
+- Comprehensive testing strategy
+- Major version release with breaking change communication
+
+This project demonstrates expertise in Terraform best practices, infrastructure stability engineering, and production risk mitigation through thoughtful module design and refactoring.
