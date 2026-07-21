@@ -12,6 +12,16 @@ export type Certification = {
 
 export const CERTIFICATIONS: Certification[] = [
   {
+    title: "Microsoft Certified: DevOps Engineer Expert",
+    issuer: "Microsoft",
+    logo: "☁️",
+    issueDate: "2026",
+    credentialId: "AZ-400",
+    credentialUrl: "",
+    skills: ["Azure DevOps", "CI/CD", "Infrastructure as Code", "DevOps"],
+    image: "/_static/certifications/az-400.png",
+  },
+  {
     title: "Microsoft Certified: Azure Administrator Associate",
     issuer: "Microsoft",
     logo: "☁️",
